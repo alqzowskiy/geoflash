@@ -1,0 +1,693 @@
+{
+    "wonders": [
+        {
+            "id": 1,
+            "name": "Великая пирамида Гизы",
+            "country": "Египет",
+            "type": "Древнее чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Kheops-Pyramid.jpg",
+            "year": "2560 г. до н.э.",
+            "coordinates": "29°58′45″ с. ш. 31°08′03″ в. д.",
+            "facts": [
+                "Великая пирамида Гизы — самая древняя и крупная из трех пирамид в комплексе Гизы.",
+                "Это единственное из Семи чудес древнего мира, сохранившееся до наших дней.",
+                "Изначально высота пирамиды составляла 146.6 метров, но со временем уменьшилась до 138.8 метров."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Пирамида_Хеопса"
+        },
+        {
+            "id": 2,
+            "name": "Висячие сады Семирамиды",
+            "country": "Ирак (исторический Вавилон)",
+            "type": "Древнее чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Hanging_Gardens_of_Babylon.jpg",
+            "year": "около 600 г. до н.э.",
+            "coordinates": "32°32′11″ с. ш. 44°25′15″ в. д.",
+            "facts": [
+                "Висячие сады Семирамиды — единственное из Семи чудес, местоположение которого не установлено.",
+                "Некоторые учёные считают, что они могли быть чисто легендарными.",
+                "По легенде, сады были построены вавилонским царем Навуходоносором II для своей жены Амитис, которая тосковала по холмистой родине."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Висячие_сады_Семирамиды"
+        },
+        {
+            "id": 3,
+            "name": "Храм Артемиды в Эфесе",
+            "country": "Турция",
+            "type": "Древнее чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Miniaturk_009.jpg",
+            "year": "550 г. до н.э.",
+            "coordinates": "37°56′59″ с. ш. 27°21′50″ в. д.",
+            "facts": [
+                "Храм Артемиды был разрушен и восстановлен несколько раз.",
+                "Он был полностью перестроен трижды до своего окончательного разрушения в 401 г. н.э.",
+                "Знаменитый поджог храма Геростратом в 356 г. до н.э. совпал с днем рождения Александра Македонского."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Храм_Артемиды_в_Эфесе"
+        },
+        {
+            "id": 4,
+            "name": "Статуя Зевса в Олимпии",
+            "country": "Греция",
+            "type": "Древнее чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Statue_of_Zeus.jpg",
+            "year": "435 г. до н.э.",
+            "coordinates": "37°38′16″ с. ш. 21°37′48″ в. д.",
+            "facts": [
+                "Статуя Зевса в Олимпии была гигантской сидящей фигурой высотой около 13 метров.",
+                "Создателем статуи был греческий скульптор Фидий.",
+                "Статуя была выполнена в хрисоэлефантинной технике — использовались золото и слоновая кость."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Статуя_Зевса_в_Олимпии"
+        },
+        {
+            "id": 5,
+            "name": "Мавзолей в Галикарнасе",
+            "country": "Турция",
+            "type": "Древнее чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Mausoleum_of_Halicarnassus_2009.jpg",
+            "year": "351 г. до н.э.",
+            "coordinates": "37°02′16″ с. ш. 27°25′27″ в. д.",
+            "facts": [
+                "Мавзолей был высотой примерно 45 метров.",
+                "Каждая из четырех его сторон была украшена скульптурными рельефами, созданными одним из четырех греческих скульпторов.",
+                "Мавзолей был разрушен серией землетрясений в XII-XV веках."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Мавзолей_в_Галикарнасе"
+        },
+        {
+            "id": 6,
+            "name": "Колосс Родосский",
+            "country": "Греция",
+            "type": "Древнее чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Colossus_of_Rhodes2.jpg",
+            "year": "280 г. до н.э.",
+            "coordinates": "36°27′04″ с. ш. 28°13′40″ в. д.",
+            "facts": [
+                "Колосс Родосский был статуей греческого бога солнца Гелиоса, воздвигнутой в городе Родос.",
+                "Высота статуи составляла 33 метра.",
+                "Просуществовал всего 54 года и был разрушен землетрясением в 226 г. до н.э."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Колосс_Родосский"
+        },
+        {
+            "id": 7,
+            "name": "Александрийский маяк",
+            "country": "Египет",
+            "type": "Древнее чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/b/b0/PHAROS2021.jpg",
+            "year": "280 г. до н.э.",
+            "coordinates": "31°12′50″ с. ш. 29°53′08″ в. д.",
+            "facts": [
+                "Александрийский маяк, иногда называемый Фаросским маяком, был построен Птолемеями.",
+                "В течение многих веков он был одним из самых высоких сооружений в мире — около 120-140 метров.",
+                "Маяк был серьезно поврежден серией землетрясений и окончательно разрушен в 1480 году."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Александрийский_маяк"
+        },
+        {
+            "id": 8,
+            "name": "Великая Китайская стена",
+            "country": "Китай",
+            "type": "Новое чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/The_Great_Wall_of_China_at_Jinshanling-Luanping-Hebei.jpg",
+            "year": "III век до н.э. - XVII век н.э.",
+            "coordinates": "40°41′ с. ш. 117°14′ в. д.",
+            "facts": [
+                "Великая Китайская стена — самая длинная стена в мире, протяженностью более 21 000 километров.",
+                "Строительство различных участков стены началось в III веке до н.э. и продолжалось до XVII века.",
+                "Вопреки распространенному мифу, стена не видна невооруженным глазом с Луны или даже с низкой околоземной орбиты."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Великая_Китайская_стена"
+        },
+        {
+            "id": 9,
+            "name": "Петра",
+            "country": "Иордания",
+            "type": "Новое чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/6/61/Petra_Jordan_BW_36.JPG",
+            "year": "около 312 г. до н.э.",
+            "coordinates": "30°19′43″ с. ш. 35°26′31″ в. д.",
+            "facts": [
+                "Древний город Петра был высечен прямо в скалах розового песчаника.",
+                "Он был утерян для западного мира до 1812 года, когда его заново открыл швейцарский исследователь Иоганн Людвиг Буркхардт.",
+                "Петра была столицей Набатейского царства и важным торговым центром."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Петра"
+        },
+        {
+            "id": 10,
+            "name": "Статуя Христа-Искупителя",
+            "country": "Бразилия",
+            "type": "Новое чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Aerial_view_of_the_Statue_of_Christ_the_Redeemer.jpg",
+            "year": "1931 г.",
+            "coordinates": "22°57′06″ ю. ш. 43°12′39″ з. д.",
+            "facts": [
+                "Статуя Христа-Искупителя в Рио-де-Жанейро высотой 30 метров стоит на вершине горы Корковаду на высоте 710 метров.",
+                "Строительство длилось 9 лет — с 1922 по 1931 год.",
+                "Статуя регулярно страдает от ударов молний и требует постоянной реставрации."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Статуя_Христа-Искупителя"
+        },
+        {
+            "id": 11,
+            "name": "Мачу-Пикчу",
+            "country": "Перу",
+            "type": "Новое чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Machu_Picchu%2C_Peru.jpg",
+            "year": "XV век",
+            "coordinates": "13°09′48″ ю. ш. 72°32′44″ з. д.",
+            "facts": [
+                "Мачу-Пикчу был построен в XV веке и позже заброшен.",
+                "Этот древний город инков называют 'потерянным городом', так как о нем не знали до 1911 года, когда его обнаружил американский исследователь Хайрам Бингем.",
+                "Мачу-Пикчу находится на высоте 2430 метров над уровнем моря."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Мачу-Пикчу"
+        },
+        {
+            "id": 12,
+            "name": "Чичен-Ица",
+            "country": "Мексика",
+            "type": "Новое чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Chichen_Itza_3.jpg",
+            "year": "VI-XIII века",
+            "coordinates": "20°40′58″ с. ш. 88°34′07″ з. д.",
+            "facts": [
+                "Пирамида Эль-Кастильо в Чичен-Ице имеет 365 ступеней — по одной на каждый день года.",
+                "Во время весеннего и осеннего равноденствия заходящее солнце создает теневой узор, напоминающий спускающуюся по пирамиде змею.",
+                "Чичен-Ица была одним из крупнейших городов майя и, возможно, имела самую разнообразную популяцию в майянском мире."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Чичен-Ица"
+        },
+        {
+            "id": 13,
+            "name": "Колизей",
+            "country": "Италия",
+            "type": "Новое чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+            "year": "72-80 гг. н.э.",
+            "coordinates": "41°53′25″ с. ш. 12°29′32″ в. д.",
+            "facts": [
+                "Колизей в Риме мог вместить до 80 000 зрителей.",
+                "Он использовался для гладиаторских боев, публичных зрелищ и драматических представлений, основанных на классической мифологии.",
+                "Строительство Колизея было начато при императоре Веспасиане в 72 году н.э. и завершено при его сыне Тите в 80 году н.э."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Колизей"
+        },
+        {
+            "id": 14,
+            "name": "Тадж-Махал",
+            "country": "Индия",
+            "type": "Новое чудо света",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/d/da/Taj-Mahal.jpg",
+            "year": "1632-1653 гг.",
+            "coordinates": "27°10′30″ с. ш. 78°02′31″ в. д.",
+            "facts": [
+                "Тадж-Махал был построен императором Шах-Джаханом в память о его любимой жене Мумтаз-Махал.",
+                "Строительство длилось 22 года и потребовало труда более 20 000 рабочих.",
+                "Мрамор для строительства доставлялся из каменоломен, находящихся более чем в 300 км от места строительства."
+            ],
+            "wiki": "https://ru.wikipedia.org/wiki/Тадж-Махал"
+        }
+    ],
+    "countries": [
+        {
+            "id": 1,
+            "name": "Россия",
+            "capital": "Москва",
+            "continent": "Евразия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Russia.svg",
+            "population": "146 млн",
+            "area": "17 125 191 км²",
+            "languages": [
+                "Русский"
+            ],
+            "currency": "Российский рубль (₽)",
+            "largestCities": [
+                "Москва",
+                "Санкт-Петербург",
+                "Новосибирск",
+                "Екатеринбург",
+                "Казань"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 2,
+            "name": "США",
+            "capital": "Вашингтон",
+            "continent": "Северная Америка",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg",
+            "population": "331 млн",
+            "area": "9 833 517 км²",
+            "languages": [
+                "Английский (де-факто)"
+            ],
+            "currency": "Доллар США ($)",
+            "largestCities": [
+                "Нью-Йорк",
+                "Лос-Анджелес",
+                "Чикаго",
+                "Хьюстон",
+                "Финикс"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 3,
+            "name": "Китай",
+            "capital": "Пекин",
+            "continent": "Азия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg",
+            "population": "1.4 млрд",
+            "area": "9 596 961 км²",
+            "languages": [
+                "Китайский (мандаринский)"
+            ],
+            "currency": "Юань (¥)",
+            "largestCities": [
+                "Шанхай",
+                "Пекин",
+                "Гуанчжоу",
+                "Шэньчжэнь",
+                "Чэнду"
+            ],
+            "wonders": [
+                "Великая Китайская стена"
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Бразилия",
+            "capital": "Бразилиа",
+            "continent": "Южная Америка",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg",
+            "population": "213 млн",
+            "area": "8 515 767 км²",
+            "languages": [
+                "Португальский"
+            ],
+            "currency": "Бразильский реал (R$)",
+            "largestCities": [
+                "Сан-Паулу",
+                "Рио-де-Жанейро",
+                "Бразилиа",
+                "Сальвадор",
+                "Форталеза"
+            ],
+            "wonders": [
+                "Статуя Христа-Искупителя"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Индия",
+            "capital": "Нью-Дели",
+            "continent": "Азия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/4/41/Flag_of_India.svg",
+            "population": "1.38 млрд",
+            "area": "3 287 263 км²",
+            "languages": [
+                "Хинди",
+                "Английский",
+                "и более 20 других официальных языков"
+            ],
+            "currency": "Индийская рупия (₹)",
+            "largestCities": [
+                "Мумбаи",
+                "Дели",
+                "Бангалор",
+                "Хайдарабад",
+                "Ченнаи"
+            ],
+            "wonders": [
+                "Тадж-Махал"
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Италия",
+            "capital": "Рим",
+            "continent": "Европа",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg",
+            "population": "60 млн",
+            "area": "301 340 км²",
+            "languages": [
+                "Итальянский"
+            ],
+            "currency": "Евро (€)",
+            "largestCities": [
+                "Рим",
+                "Милан",
+                "Неаполь",
+                "Турин",
+                "Палермо"
+            ],
+            "wonders": [
+                "Колизей"
+            ]
+        },
+        {
+            "id": 7,
+            "name": "Франция",
+            "capital": "Париж",
+            "continent": "Европа",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg",
+            "population": "67 млн",
+            "area": "643 801 км²",
+            "languages": [
+                "Французский"
+            ],
+            "currency": "Евро (€)",
+            "largestCities": [
+                "Париж",
+                "Марсель",
+                "Лион",
+                "Тулуза",
+                "Ницца"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 8,
+            "name": "Германия",
+            "capital": "Берлин",
+            "continent": "Европа",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg",
+            "population": "83 млн",
+            "area": "357 022 км²",
+            "languages": [
+                "Немецкий"
+            ],
+            "currency": "Евро (€)",
+            "largestCities": [
+                "Берлин",
+                "Гамбург",
+                "Мюнхен",
+                "Кёльн",
+                "Франкфурт-на-Майне"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 9,
+            "name": "Япония",
+            "capital": "Токио",
+            "continent": "Азия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Flag_of_Japan.svg",
+            "population": "126 млн",
+            "area": "377 975 км²",
+            "languages": [
+                "Японский"
+            ],
+            "currency": "Иена (¥)",
+            "largestCities": [
+                "Токио",
+                "Йокогама",
+                "Осака",
+                "Нагоя",
+                "Саппоро"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 10,
+            "name": "Египет",
+            "capital": "Каир",
+            "continent": "Африка",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg",
+            "population": "100 млн",
+            "area": "1 010 408 км²",
+            "languages": [
+                "Арабский"
+            ],
+            "currency": [
+                "Египетский фунт (£)"
+            ],
+            "largestCities": [
+                "Каир",
+                "Александрия",
+                "Гиза",
+                "Шубра-Эль-Хейма",
+                "Порт-Саид"
+            ],
+            "wonders": [
+                "Великая пирамида Гизы",
+                "Александрийский маяк"
+            ]
+        },
+        {
+            "id": 11,
+            "name": "Мексика",
+            "capital": "Мехико",
+            "continent": "Северная Америка",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Flag_of_Mexico.svg",
+            "population": "128 млн",
+            "area": "1 964 375 км²",
+            "languages": [
+                "Испанский"
+            ],
+            "currency": [
+                "Мексиканское песо ($)"
+            ],
+            "largestCities": [
+                "Мехико",
+                "Экатепек",
+                "Гвадалахара",
+                "Пуэбла",
+                "Сьюдад-Хуарес"
+            ],
+            "wonders": [
+                "Чичен-Ица"
+            ]
+        },
+        {
+            "id": 12,
+            "name": "Иордания",
+            "capital": "Амман",
+            "continent": "Азия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Flag_of_Jordan.svg",
+            "population": "10 млн",
+            "area": "89 342 км²",
+            "languages": [
+                "Арабский"
+            ],
+            "currency": [
+                "Иорданский динар (JD)"
+            ],
+            "largestCities": [
+                "Амман",
+                "Зарка",
+                "Ирбид",
+                "Русейфа",
+                "Эль-Карак"
+            ],
+            "wonders": [
+                "Петра"
+            ]
+        },
+        {
+            "id": 13,
+            "name": "Турция",
+            "capital": "Анкара",
+            "continent": "Евразия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg",
+            "population": "83 млн",
+            "area": "783 356 км²",
+            "languages": [
+                "Турецкий"
+            ],
+            "currency": [
+                "Турецкая лира (₺)"
+            ],
+            "largestCities": [
+                "Стамбул",
+                "Анкара",
+                "Измир",
+                "Бурса",
+                "Адана"
+            ],
+            "wonders": [
+                "Храм Артемиды в Эфесе",
+                "Мавзолей в Галикарнасе"
+            ]
+        },
+        {
+            "id": 14,
+            "name": "Греция",
+            "capital": "Афины",
+            "continent": "Европа",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Greece.svg",
+            "population": "10.7 млн",
+            "area": "131 957 км²",
+            "languages": [
+                "Греческий"
+            ],
+            "currency": [
+                "Евро (€)"
+            ],
+            "largestCities": [
+                "Афины",
+                "Салоники",
+                "Патры",
+                "Ираклион",
+                "Лариса"
+            ],
+            "wonders": [
+                "Статуя Зевса в Олимпии",
+                "Колосс Родосский"
+            ]
+        },
+        {
+            "id": 15,
+            "name": "Перу",
+            "capital": "Лима",
+            "continent": "Южная Америка",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Flag_of_Peru.svg",
+            "population": "32 млн",
+            "area": "1 285 216 км²",
+            "languages": [
+                "Испанский",
+                "Кечуа",
+                "Аймара"
+            ],
+            "currency": [
+                "Перуанский соль (S/)"
+            ],
+            "largestCities": [
+                "Лима",
+                "Арекипа",
+                "Трухильо",
+                "Чиклайо",
+                "Пьюра"
+            ],
+            "wonders": [
+                "Мачу-Пикчу"
+            ]
+        },
+        {
+            "id": 16,
+            "name": "Австралия",
+            "capital": "Канберра",
+            "continent": "Австралия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Australia_%28converted%29.svg",
+            "population": "25 млн",
+            "area": "7 692 024 км²",
+            "languages": [
+                "Английский"
+            ],
+            "currency": [
+                "Австралийский доллар (A$)"
+            ],
+            "largestCities": [
+                "Сидней",
+                "Мельбурн",
+                "Брисбен",
+                "Перт",
+                "Аделаида"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 17,
+            "name": "Канада",
+            "capital": "Оттава",
+            "continent": "Северная Америка",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Canada_%28Pantone%29.svg",
+            "population": "38 млн",
+            "area": "9 984 670 км²",
+            "languages": [
+                "Английский",
+                "Французский"
+            ],
+            "currency": [
+                "Канадский доллар (C$)"
+            ],
+            "largestCities": [
+                "Торонто",
+                "Монреаль",
+                "Калгари",
+                "Оттава",
+                "Эдмонтон"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 18,
+            "name": "Южная Африка",
+            "capital": "Претория, Кейптаун и Блумфонтейн",
+            "continent": "Африка",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/a/af/Flag_of_South_Africa.svg",
+            "population": "58 млн",
+            "area": "1 221 037 км²",
+            "languages": [
+                "Африкаанс",
+                "Английский",
+                "Зулу",
+                "Коса",
+                "и другие"
+            ],
+            "currency": [
+                "Южноафриканский рэнд (R)"
+            ],
+            "largestCities": [
+                "Йоханнесбург",
+                "Кейптаун",
+                "Дурбан",
+                "Претория",
+                "Порт-Элизабет"
+            ],
+            "wonders": []
+        },
+        {
+            "id": 19,
+            "name": "Ирак",
+            "capital": "Багдад",
+            "continent": "Азия",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Flag_of_Iraq.svg",
+            "population": "39 млн",
+            "area": "438 317 км²",
+            "languages": [
+                "Арабский",
+                "Курдский"
+            ],
+            "currency": [
+                "Иракский динар (IQD)"
+            ],
+            "largestCities": [
+                "Багдад",
+                "Басра",
+                "Мосул",
+                "Эрбиль",
+                "Сулеймания"
+            ],
+            "wonders": [
+                "Висячие сады Семирамиды"
+            ]
+        },
+        {
+            "id": 20,
+            "name": "Великобритания",
+            "capital": "Лондон",
+            "continent": "Европа",
+            "flag": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_the_United_Kingdom.svg",
+            "population": "67 млн",
+            "area": "242 495 км²",
+            "languages": [
+                "Английский"
+            ],
+            "currency": [
+                "Фунт стерлингов (£)"
+            ],
+            "largestCities": [
+                "Лондон",
+                "Бирмингем",
+                "Глазго",
+                "Ливерпуль",
+                "Бристоль"
+            ],
+            "wonders": []
+        }
+    ]
+}

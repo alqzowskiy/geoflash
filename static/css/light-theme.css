@@ -1,0 +1,55 @@
+/* Стили для светлой темы */
+body.light-theme {
+    background-color: #FAFAFA;
+    color: #264653;
+}
+
+body.light-theme header {
+    background-color: #2A9D8F;
+}
+
+body.light-theme footer {
+    background-color: #2A9D8F;
+    border-color: #E9C46A;
+}
+
+body.light-theme .tab.active {
+    color: #264653;
+}
+
+body.light-theme .tab-slider {
+    background-color: #E9C46A;
+}
+
+body.light-theme .badge-info {
+    background-color: #F4A261;
+    color: #264653;
+}
+
+body.light-theme .badge-neutral {
+    background-color: #E9C46A;
+    color: #264653;
+}
+
+body.light-theme .card-front {
+    background-color: #F4A261;
+    border-color: #E76F51;
+}
+
+body.light-theme .card-back {
+    background-color: #FAFAFA;
+    border-color: #2A9D8F;
+}
+
+body.light-theme #progress-background {
+    stroke: #E9C46A;
+    stroke-opacity: 0.4;
+}
+
+body.light-theme #progress-indicator {
+    stroke: #E76F51;
+}
+
+body.light-theme .divider {
+    background-image: linear-gradient(to right, transparent, #E76F51, transparent);
+}

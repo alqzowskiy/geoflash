@@ -1,0 +1,883 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+    :root {
+        --card-width: 320px;
+        --card-height: 480px;
+        --primary-color: #2A9D8F;
+        --secondary-color: #F4A261;
+        --accent-color: #E76F51;
+        --dark-color: #264653;
+        --light-color: #FAFAFA;
+        --yellow-color: #E9C46A;
+    }
+
+    /* Основные стили */
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Стили для вкладок */
+    .mode-tabs {
+        display: flex;
+        background: rgba(38, 70, 83, 0.3);
+        border-radius: 50px;
+        padding: 4px;
+        position: relative;
+        width: 300px;
+        margin: 0 auto 40px;
+        z-index: 10;
+    }
+
+    .mode-tab {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        z-index: 2;
+        cursor: pointer;
+        border-radius: 50px;
+        position: relative;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .mode-tab.active {
+        color: #264653;
+    }
+
+    .tab-indicator {
+        position: absolute;
+        height: calc(100% - 8px);
+        top: 4px;
+        z-index: 1;
+        border-radius: 50px;
+        background-color: #E9C46A;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 2px 8px rgba(233, 196, 106, 0.5);
+    }
+
+    /* Стили для карточек */
+    .card-container {
+        width: var(--card-width);
+        height: var(--card-height);
+        margin: 0 auto 40px;
+        perspective: 1500px;
+        position: relative;
+    }
+
+    .card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        will-change: transform;
+    }
+
+    .card.flipped {
+        transform: rotateY(180deg);
+    }
+
+    .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 16px;
+        overflow: hidden;
+        transform-style: preserve-3d;
+    }
+
+    .card-front {
+        background-color: var(--secondary-color);
+        display: flex;
+        flex-direction: column;
+        border: 2px solid var(--accent-color);
+    }
+
+    .card-back {
+        background-color: var(--light-color);
+        transform: rotateY(180deg);
+        color: var(--dark-color);
+        padding: 20px;
+        overflow-y: auto;
+        border: 2px solid var(--primary-color);
+    }
+
+    .card-image {
+        width: 100%;
+        height: 60%;
+        object-fit: cover;
+        border-bottom: 2px solid var(--accent-color);
+        transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-image {
+        transform: scale(1.05);
+    }
+
+    .card-flag {
+        width: 100%;
+        height: 45%;
+        object-fit: contain;
+        padding: 0.5rem;
+        transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-flag {
+        transform: scale(1.05);
+    }
+
+    .card-title-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        padding: 15px;
+    }
+
+    .card-title {
+        color: var(--dark-color);
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 24px;
+        text-align: center;
+        position: relative;
+    }
+
+    .card-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background-color: var(--accent-color);
+        transition: width 0.3s ease;
+    }
+
+    .card:hover .card-title::after {
+        width: 80px;
+    }
+
+    /* Стили для кнопок */
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .control-btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        color: var(--light-color);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .control-btn:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.4s ease;
+    }
+
+    .control-btn:hover {
+        transform: translateY(-3px);
+    }
+
+    .control-btn:hover:after {
+        width: 200%;
+        height: 200%;
+    }
+
+    .control-btn:active {
+        transform: translateY(1px);
+    }
+
+    .btn-prev,
+    .btn-next {
+        background-color: var(--primary-color);
+    }
+
+    .btn-flip {
+        background-color: var(--secondary-color);
+    }
+
+    .btn-random {
+        background-color: var(--accent-color);
+    }
+
+    /* Стили для информационных блоков */
+    .info-block {
+        background-color: var(--light-color);
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .info-block:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-label {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--light-color);
+    }
+
+    .info-value {
+        font-weight: 500;
+        color: var(--dark-color);
+    }
+
+    .label-primary {
+        background-color: var(--primary-color);
+    }
+
+    .label-secondary {
+        background-color: var(--secondary-color);
+    }
+
+    .label-accent {
+        background-color: var(--accent-color);
+    }
+
+    .label-neutral {
+        background-color: var(--dark-color);
+    }
+
+    /* Улучшенные анимации для смены режимов */
+    .modes-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        min-height: calc(var(--card-height) + 40px);
+    }
+
+    /* Основная 3D-анимация смены режима */
+    .mode {
+        transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform-style: preserve-3d;
+        transform-origin: center center;
+        backface-visibility: visible;
+        opacity: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+
+    .mode.active {
+        z-index: 5;
+        transform: rotateY(0deg) translateZ(0);
+        opacity: 1;
+        position: relative;
+    }
+
+    .mode.inactive-left {
+        transform: rotateY(-90deg) translateZ(150px);
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .mode.inactive-right {
+        transform: rotateY(90deg) translateZ(150px);
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Эффект переворота страницы */
+    .page-turn-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(100deg, var(--yellow-color) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+        opacity: 0;
+        z-index: 50;
+        border-radius: 16px;
+        pointer-events: none;
+        transition: all 0.8s ease-out;
+    }
+
+    .page-turn-effect.active-left {
+        animation: pageTurnLeft 0.8s ease-out forwards;
+    }
+
+    .page-turn-effect.active-right {
+        animation: pageTurnRight 0.8s ease-out forwards;
+    }
+
+    @keyframes pageTurnLeft {
+        0% {
+            transform: translateX(100%) skewX(-20deg);
+            opacity: 0.8;
+        }
+
+        100% {
+            transform: translateX(-100%) skewX(-10deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes pageTurnRight {
+        0% {
+            transform: translateX(-100%) skewX(20deg);
+            opacity: 0.8;
+        }
+
+        100% {
+            transform: translateX(100%) skewX(10deg);
+            opacity: 0;
+        }
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+        :root {
+            --card-width: 290px;
+            --card-height: 450px;
+        }
+
+        .controls {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center">
+    <!-- Вкладки режимов -->
+    <div class="mode-tabs">
+        <div class="mode-tab active" id="wonders-tab">Чудеса света</div>
+        <div class="mode-tab" id="countries-tab">Страны мира</div>
+        <div class="tab-indicator" id="tab-indicator"></div>
+    </div>
+
+    <!-- Контейнер для режимов -->
+    <div class="modes-container">
+        <!-- Эффект перелистывания страницы -->
+        <div class="page-turn-effect" id="page-turn-effect"></div>
+
+        <!-- Режим чудес света -->
+        <div class="mode active" id="wonders-mode">
+            <div class="card-container">
+                <div class="card" id="wonders-card">
+                    <div class="card-face card-front">
+                        <img class="card-image" id="wonders-image" src="" alt="">
+                        <div class="card-title-container">
+                            <h2 class="card-title" id="wonders-title"></h2>
+                        </div>
+                    </div>
+                    <div class="card-face card-back">
+                        <h2 class="card-title mb-4" id="wonders-back-title"></h2>
+                        <div class="divider h-0.5 bg-gradient-to-r from-transparent via-sage-green to-transparent my-3">
+                        </div>
+                        <div id="wonders-info"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Режим стран -->
+        <div class="mode inactive-right" id="countries-mode">
+            <div class="card-container">
+                <div class="card" id="countries-card">
+                    <div class="card-face card-front">
+                        <img class="card-flag" id="countries-image" src="" alt="">
+                        <div class="card-title-container">
+                            <h2 class="card-title" id="countries-title"></h2>
+                        </div>
+                    </div>
+                    <div class="card-face card-back">
+                        <h2 class="card-title mb-4" id="countries-back-title"></h2>
+                        <div class="divider h-0.5 bg-gradient-to-r from-transparent via-sage-green to-transparent my-3">
+                        </div>
+                        <div id="countries-info"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопки управления -->
+    <div class="controls">
+        <button class="control-btn btn-prev" id="prev-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clip-rule="evenodd" />
+            </svg>
+            Предыдущая
+        </button>
+        <button class="control-btn btn-flip" id="flip-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                    d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+            </svg>
+            Перевернуть
+        </button>
+        <button class="control-btn btn-next" id="next-btn">
+            Следующая
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+    <button class="control-btn btn-random" id="random-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd" />
+        </svg>
+        Случайная карточка
+    </button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Получить данные из Flask
+    const wonders = {{ data.wonders| tojson | safe }};
+    const countries = {{ data.countries| tojson | safe }};
+
+    // Элементы интерфейса - вкладки
+    const wondersTab = document.getElementById('wonders-tab');
+    const countriesTab = document.getElementById('countries-tab');
+    const tabIndicator = document.getElementById('tab-indicator');
+
+    // Элементы интерфейса - режимы
+    const wondersMode = document.getElementById('wonders-mode');
+    const countriesMode = document.getElementById('countries-mode');
+    const pageTurnEffect = document.getElementById('page-turn-effect');
+
+    // Элементы интерфейса - карточки чудес
+    const wondersCard = document.getElementById('wonders-card');
+    const wondersImage = document.getElementById('wonders-image');
+    const wondersTitle = document.getElementById('wonders-title');
+    const wondersBackTitle = document.getElementById('wonders-back-title');
+    const wondersInfo = document.getElementById('wonders-info');
+
+    // Элементы интерфейса - карточки стран
+    const countriesCard = document.getElementById('countries-card');
+    const countriesImage = document.getElementById('countries-image');
+    const countriesTitle = document.getElementById('countries-title');
+    const countriesBackTitle = document.getElementById('countries-back-title');
+    const countriesInfo = document.getElementById('countries-info');
+
+    // Элементы интерфейса - кнопки
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const flipBtn = document.getElementById('flip-btn');
+    const randomBtn = document.getElementById('random-btn');
+
+    // Функции для сохранения и загрузки состояния
+    function saveState() {
+        const state = {
+            currentMode,
+            wondersIndex,
+            countriesIndex,
+            wondersFlipped: wondersCard.classList.contains('flipped'),
+            countriesFlipped: countriesCard.classList.contains('flipped')
+        };
+        localStorage.setItem('geoflashState', JSON.stringify(state));
+    }
+
+    function loadState() {
+        const savedState = localStorage.getItem('geoflashState');
+        if (savedState) {
+            const state = JSON.parse(savedState);
+
+            // Установка индексов
+            wondersIndex = state.wondersIndex || 0;
+            countriesIndex = state.countriesIndex || 0;
+
+            // Обновление карточек
+            updateWondersCard();
+            updateCountriesCard();
+
+            // Установка режима
+            if (state.currentMode === 'countries' && currentMode !== 'countries') {
+                // Переключаемся на режим стран
+                countriesTab.classList.add('active');
+                wondersTab.classList.remove('active');
+                setTabIndicator();
+
+                wondersMode.classList.remove('active');
+                wondersMode.classList.add('inactive-right');
+                countriesMode.classList.remove('inactive-left');
+                countriesMode.classList.add('active');
+
+                currentMode = 'countries';
+            }
+
+            // Установка состояния переворота
+            if (state.wondersFlipped) {
+                wondersCard.classList.add('flipped');
+            } else {
+                wondersCard.classList.remove('flipped');
+            }
+
+            if (state.countriesFlipped) {
+                countriesCard.classList.add('flipped');
+            } else {
+                countriesCard.classList.remove('flipped');
+            }
+        }
+    }
+
+    // Состояние приложения
+    let currentMode = 'wonders'; // 'wonders' или 'countries'
+    let wondersIndex = 0;
+    let countriesIndex = 0;
+    let isAnimating = false;
+
+    // Инициализация индикатора вкладок
+    function setTabIndicator() {
+        const activeTab = document.querySelector('.mode-tab.active');
+        tabIndicator.style.left = activeTab.offsetLeft + 'px';
+        tabIndicator.style.width = activeTab.offsetWidth + 'px';
+    }
+
+    // Функция анимированного перехода между режимами
+    function animateModesTransition(from, to, direction) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Подготавливаем эффект перелистывания страницы
+        pageTurnEffect.classList.remove('active-left', 'active-right');
+        void pageTurnEffect.offsetWidth; // Сброс анимации
+
+        // Задаем направление анимации
+        if (direction === 'left') {
+            pageTurnEffect.classList.add('active-left');
+            from.classList.remove('active');
+            from.classList.add('inactive-left');
+            to.classList.remove('inactive-right');
+            to.classList.add('active');
+        } else {
+            pageTurnEffect.classList.add('active-right');
+            from.classList.remove('active');
+            from.classList.add('inactive-right');
+            to.classList.remove('inactive-left');
+            to.classList.add('active');
+        }
+
+        // Завершаем анимацию
+        setTimeout(() => {
+            isAnimating = false;
+            // Сохраняем состояние после завершения анимации
+            saveState();
+        }, 800);
+    }
+
+    // Переключение на режим "Чудеса света"
+    wondersTab.addEventListener('click', () => {
+        if (currentMode === 'wonders' || isAnimating) return;
+
+        // Обновляем активную вкладку
+        wondersTab.classList.add('active');
+        countriesTab.classList.remove('active');
+        setTabIndicator();
+
+        // Анимируем переключение режимов
+        animateModesTransition(countriesMode, wondersMode, 'right');
+
+        // Обновляем текущий режим
+        currentMode = 'wonders';
+        saveState();
+    });
+
+    // Переключение на режим "Страны мира"
+    countriesTab.addEventListener('click', () => {
+        if (currentMode === 'countries' || isAnimating) return;
+
+        // Обновляем активную вкладку
+        countriesTab.classList.add('active');
+        wondersTab.classList.remove('active');
+        setTabIndicator();
+
+        // Анимируем переключение режимов
+        animateModesTransition(wondersMode, countriesMode, 'left');
+
+        // Обновляем текущий режим
+        currentMode = 'countries';
+        saveState();
+    });
+
+    // Переворот карточек при клике
+    wondersCard.addEventListener('click', () => {
+        if (!isAnimating) {
+            wondersCard.classList.toggle('flipped');
+            saveState();
+        }
+    });
+
+    countriesCard.addEventListener('click', () => {
+        if (!isAnimating) {
+            countriesCard.classList.toggle('flipped');
+            saveState();
+        }
+    });
+
+    // Обработчик кнопки "Предыдущая"
+    prevBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+
+        if (currentMode === 'wonders') {
+            wondersIndex = (wondersIndex - 1 + wonders.length) % wonders.length;
+            updateWondersCard();
+            wondersCard.classList.remove('flipped');
+        } else {
+            countriesIndex = (countriesIndex - 1 + countries.length) % countries.length;
+            updateCountriesCard();
+            countriesCard.classList.remove('flipped');
+        }
+        saveState();
+    });
+
+    // Обработчик кнопки "Следующая"
+    nextBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+
+        if (currentMode === 'wonders') {
+            wondersIndex = (wondersIndex + 1) % wonders.length;
+            updateWondersCard();
+            wondersCard.classList.remove('flipped');
+        } else {
+            countriesIndex = (countriesIndex + 1) % countries.length;
+            updateCountriesCard();
+            countriesCard.classList.remove('flipped');
+        }
+        saveState();
+    });
+
+    // Обработчик кнопки "Перевернуть"
+    flipBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+
+        if (currentMode === 'wonders') {
+            wondersCard.classList.toggle('flipped');
+        } else {
+            countriesCard.classList.toggle('flipped');
+        }
+        saveState();
+    });
+
+    // Обработчик кнопки "Случайная карточка"
+    randomBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+
+        if (currentMode === 'wonders') {
+            // Получаем новый случайный индекс
+            let newIndex;
+            if (wonders.length > 1) {
+                do {
+                    newIndex = Math.floor(Math.random() * wonders.length);
+                } while (newIndex === wondersIndex);
+                wondersIndex = newIndex;
+            }
+            updateWondersCard();
+            wondersCard.classList.remove('flipped');
+        } else {
+            // Получаем новый случайный индекс
+            let newIndex;
+            if (countries.length > 1) {
+                do {
+                    newIndex = Math.floor(Math.random() * countries.length);
+                } while (newIndex === countriesIndex);
+                countriesIndex = newIndex;
+            }
+            updateCountriesCard();
+            countriesCard.classList.remove('flipped');
+        }
+        saveState();
+    });
+
+    // Обновление карточки чудес света
+    function updateWondersCard() {
+        const currentItem = wonders[wondersIndex];
+
+        // Обновление лицевой стороны
+        wondersImage.src = currentItem.image;
+        wondersTitle.textContent = currentItem.name;
+
+        // Обновление обратной стороны
+        wondersBackTitle.textContent = currentItem.name;
+
+        // Формируем HTML с информацией
+        let infoHTML = `
+        <div class="grid grid-cols-1 gap-2">
+            <div class="info-block">
+                <span class="info-label label-primary">Страна:</span>
+                <div class="info-value">${currentItem.country}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-secondary">Тип:</span>
+                <div class="info-value">${currentItem.type}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-primary">Год:</span>
+                <div class="info-value">${currentItem.year}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-secondary">Координаты:</span>
+                <div class="info-value">${currentItem.coordinates}</div>
+            </div>
+        </div>
+    `;
+
+        // Добавляем факты, если они есть
+        if (currentItem.facts && currentItem.facts.length > 0) {
+            infoHTML += `
+            <div class="mt-4">
+                <span class="info-label label-accent">Интересные факты:</span>
+                <ul class="list-disc list-inside mt-2">
+                    ${currentItem.facts.map(fact => `<li class="info-value">${fact}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        }
+
+        // Добавляем ссылку на Википедию
+        infoHTML += `
+        <div class="mt-4 text-center">
+            <a href="${currentItem.wiki}" target="_blank" class="control-btn btn-flip inline-flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                    <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                </svg>
+                Подробнее
+            </a>
+        </div>
+    `;
+
+        wondersInfo.innerHTML = infoHTML;
+    }
+
+    // Обновление карточки стран
+    function updateCountriesCard() {
+        const currentItem = countries[countriesIndex];
+
+        // Обновление лицевой стороны
+        countriesImage.src = currentItem.flag;
+        countriesTitle.textContent = currentItem.name;
+
+        // Обновление обратной стороны
+        countriesBackTitle.textContent = currentItem.name;
+
+        // Форматируем данные
+        const languages = Array.isArray(currentItem.languages)
+            ? currentItem.languages.join(', ')
+            : currentItem.languages;
+
+        const cities = Array.isArray(currentItem.largestCities)
+            ? currentItem.largestCities.join(', ')
+            : currentItem.largestCities;
+
+        // Формируем HTML с информацией
+        let infoHTML = `
+        <div class="grid grid-cols-1 gap-2">
+            <div class="info-block">
+                <span class="info-label label-primary">Столица:</span>
+                <div class="info-value">${currentItem.capital}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-secondary">Континент:</span>
+                <div class="info-value">${currentItem.continent}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-primary">Население:</span>
+                <div class="info-value">${currentItem.population}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-secondary">Площадь:</span>
+                <div class="info-value">${currentItem.area}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-accent">Язык:</span>
+                <div class="info-value">${languages}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-neutral">Валюта:</span>
+                <div class="info-value">${currentItem.currency}</div>
+            </div>
+            <div class="info-block">
+                <span class="info-label label-primary">Крупнейшие города:</span>
+                <div class="info-value">${cities}</div>
+            </div>
+        </div>
+    `;
+
+        // Добавляем чудеса света, если они есть
+        if (currentItem.wonders && currentItem.wonders.length > 0) {
+            infoHTML += `
+            <div class="mt-4">
+                <span class="info-label label-accent">Чудеса света:</span>
+                <ul class="list-disc list-inside mt-2">
+                    ${currentItem.wonders.map(wonder => `<li class="info-value">${wonder}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        }
+
+        countriesInfo.innerHTML = infoHTML;
+    }
+
+    // Инициализация приложения
+    function init() {
+        // Устанавливаем положение индикатора вкладок
+        setTabIndicator();
+
+        // Загружаем начальные данные
+        updateWondersCard();
+        updateCountriesCard();
+
+        // Загружаем сохраненное состояние
+        loadState();
+
+        // Обработчик изменения размера окна
+        window.addEventListener('resize', setTabIndicator);
+
+        // Сохраняем состояние перед закрытием страницы
+        window.addEventListener('beforeunload', saveState);
+    }
+
+    // Запуск инициализации после загрузки DOM
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+{% endblock %}

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GeoFlash - Карточки по географии{% endblock %}</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicons/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="GeoFlash" />
+    <link rel="manifest" href="/static/favicons/site.webmanifest" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Light Theme CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/light-theme.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-blue': '#264653',
+                        'sage-green': '#2A9D8F',
+                        'sandy-yellow': '#E9C46A',
+                        'terracotta': '#F4A261',
+                        'deep-orange': '#E76F51',
+                        'milky-white': '#FAFAFA'
+                    },
+                    fontFamily: {
+                        'sans': ['Montserrat', 'sans-serif'],
+                        'display': ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #264653;
+            color: #FAFAFA;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn {
+            @apply rounded-lg px-4 py-2 font-medium transition-all duration-300 shadow-md;
+        }
+
+        .btn-primary {
+            @apply bg-sage-green text-milky-white hover:bg-opacity-90 hover:shadow-lg hover:translate-y-[-2px];
+        }
+
+        .btn-secondary {
+            @apply bg-terracotta text-milky-white hover:bg-opacity-90 hover:shadow-lg hover:translate-y-[-2px];
+        }
+
+        .btn-accent {
+            @apply bg-deep-orange text-milky-white hover:bg-opacity-90 hover:shadow-lg hover:translate-y-[-2px];
+        }
+
+        .badge {
+            @apply px-2 py-1 rounded-full text-xs font-medium;
+        }
+
+        .badge-primary {
+            @apply bg-sage-green text-milky-white;
+        }
+
+        .badge-secondary {
+            @apply bg-terracotta text-milky-white;
+        }
+
+        .badge-accent {
+            @apply bg-deep-orange text-milky-white;
+        }
+
+        .badge-info {
+            @apply bg-deep-blue text-milky-white;
+        }
+
+        .badge-warning {
+            @apply bg-sandy-yellow text-deep-blue;
+        }
+
+        .badge-success {
+            @apply bg-sage-green text-milky-white;
+        }
+
+        .badge-error {
+            @apply bg-deep-orange text-milky-white;
+        }
+
+        .badge-neutral {
+            @apply bg-deep-blue text-milky-white;
+        }
+
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .animate-slideInUp {
+            animation: slideInUp 0.5s ease-out;
+        }
+    </style>
+    <style>
+        /* Стили для крутой и быстрой анимации */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1B2735;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.7s cubic-bezier(0.5, 0, 0.1, 1);
+            overflow: hidden;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            transform: scale(1.1);
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .background-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(42, 157, 143, 0.1) 0%, rgba(27, 39, 53, 0) 70%);
+            z-index: -1;
+            animation: pulseBg 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseBg {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        #earth-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 2rem;
+            transform-style: preserve-3d;
+            perspective: 800px;
+        }
+
+        .orbit {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .orbit-1 {
+            top: -20px;
+            left: -20px;
+            width: calc(100% + 40px);
+            height: calc(100% + 40px);
+            animation: rotateOrbit 8s linear infinite;
+        }
+
+        .orbit-2 {
+            top: -10px;
+            left: -10px;
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            animation: rotateOrbit 5s linear infinite reverse;
+        }
+
+        .satellite {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #E9C46A;
+            box-shadow: 0 0 10px #E9C46A;
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes rotateOrbit {
+            0% {
+                transform: rotateZ(0deg) rotateX(70deg);
+            }
+
+            100% {
+                transform: rotateZ(360deg) rotateX(70deg);
+            }
+        }
+
+        #earth {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(to bottom right, #264653, #193642);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 0 30px rgba(0, 0, 0, 0.4),
+                0 0 50px rgba(74, 173, 222, 0.3);
+            animation: rotateEarth 12s infinite linear;
+            transform-style: preserve-3d;
+        }
+
+        .ocean-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(78, 173, 222, 0.4), transparent 70%);
+            border-radius: 50%;
+        }
+
+        @keyframes rotateEarth {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .continent {
+            position: absolute;
+            background-color: #2A9D8F;
+            border-radius: 40%;
+            box-shadow: 0 0 15px rgba(42, 157, 143, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .continent-1 {
+            width: 60px;
+            height: 70px;
+            top: 40px;
+            left: 50px;
+            transform: rotate(20deg);
+            clip-path: polygon(30% 0%, 70% 10%, 100% 30%, 90% 60%, 70% 85%, 40% 100%, 10% 90%, 0% 60%, 5% 30%);
+        }
+
+        .continent-2 {
+            width: 90px;
+            height: 50px;
+            top: 120px;
+            left: 30px;
+            transform: rotate(-15deg);
+            clip-path: polygon(10% 10%, 30% 0%, 70% 5%, 90% 20%, 100% 50%, 85% 80%, 60% 100%, 30% 90%, 10% 70%, 0% 40%);
+        }
+
+        .continent-3 {
+            width: 70px;
+            height: 80px;
+            top: 40px;
+            right: 40px;
+            transform: rotate(-30deg);
+            clip-path: polygon(0% 40%, 20% 10%, 40% 0%, 60% 10%, 80% 30%, 100% 20%, 90% 60%, 70% 80%, 40% 100%, 10% 70%);
+        }
+
+        .continent-4 {
+            width: 50px;
+            height: 60px;
+            bottom: 30px;
+            right: 60px;
+            transform: rotate(45deg);
+            clip-path: polygon(30% 0%, 60% 5%, 90% 20%, 100% 40%, 90% 70%, 70% 90%, 50% 100%, 20% 95%, 0% 70%, 5% 30%, 10% 10%);
+        }
+
+        .continent-5 {
+            width: 45px;
+            height: 35px;
+            bottom: 50px;
+            left: 50px;
+            transform: rotate(15deg);
+            clip-path: polygon(10% 0%, 35% 10%, 50% 5%, 65% 15%, 85% 10%, 100% 30%, 90% 55%, 75% 65%, 60% 80%, 40% 90%, 20% 75%, 0% 60%, 5% 30%);
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            border-radius: 50%;
+            border: 2px solid rgba(42, 157, 143, 0.5);
+            opacity: 0;
+            animation: pulse 2s cubic-bezier(0.1, 0.7, 0.5, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1.05);
+                opacity: 0;
+            }
+        }
+
+        .location-marker {
+            position: absolute;
+            top: 40%;
+            left: 60%;
+            z-index: 10;
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
+            animation: moveMarker 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveMarker {
+            0% {
+                transform: translateX(0) translateY(0) translateZ(5px);
+            }
+
+            100% {
+                transform: translateX(-80px) translateY(40px) translateZ(5px);
+            }
+        }
+
+        .marker-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #E76F51;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(231, 111, 81, 0.8);
+        }
+
+        .marker-pulse {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 16px;
+            height: 16px;
+            background-color: transparent;
+            border-radius: 50%;
+            border: 2px solid rgba(231, 111, 81, 0.6);
+            opacity: 0;
+            animation: markerPulse 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+        }
+
+        @keyframes markerPulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .loading-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #FAFAFA;
+            margin: 0.5rem 0 1.5rem;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+
+        #progress-container {
+            position: relative;
+            width: 220px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #2A9D8F, #4EADDE);
+            border-radius: 2px;
+            transition: width 0.2s ease-out;
+            position: relative;
+        }
+
+        .progress-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 60px;
+            background: linear-gradient(to right,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.8) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            animation: progressGlow 1.5s ease-in-out infinite;
+            transform: translateX(-100%);
+        }
+
+        @keyframes progressGlow {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(220px);
+            }
+        }
+
+        @keyframes zoomOut {
+            0% {
+                transform: scale(1) rotate(0deg);
+                filter: brightness(1);
+            }
+
+            60% {
+                transform: scale(1.3) rotate(10deg);
+                filter: brightness(1.3);
+            }
+
+            100% {
+                transform: scale(1.5) rotate(15deg);
+                filter: brightness(1.5);
+            }
+        }
+
+        #earth.zoom-out {
+            animation: zoomOut 0.8s forwards cubic-bezier(0.3, 0, 0.3, 1);
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+    <!-- Крутая и быстрая анимация загрузки -->
+    <div id="loading-screen">
+        <div class="background-glow"></div>
+
+        <div id="earth-container">
+            <div class="orbit orbit-1">
+                <div class="satellite"></div>
+            </div>
+            <div class="orbit orbit-2"></div>
+
+            <div id="earth">
+                <div class="ocean-glow"></div>
+                <div class="continent continent-1"></div>
+                <div class="continent continent-2"></div>
+                <div class="continent continent-3"></div>
+                <div class="continent continent-4"></div>
+                <div class="continent continent-5"></div>
+                <div class="pulse-ring"></div>
+            </div>
+
+            <div class="location-marker">
+                <div class="marker-dot"></div>
+                <div class="marker-pulse"></div>
+            </div>
+        </div>
+
+        <div class="loading-text">ЗАГРУЗКА GEOFLASH</div>
+
+        <div id="progress-container">
+            <div id="progress-bar">
+                <div id="progress"></div>
+                <div class="progress-glow"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-deep-blue py-4 shadow-lg">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <a class="flex items-center space-x-3 group">
+                    <img src="{{ url_for('static', filename='logo.svg') }}" alt="GeoFlash Logo"
+                        class="h-10 transition-transform duration-500 group-hover:rotate-[360deg]">
+                    <h1 class="text-2xl font-display font-bold text-milky-white">GeoFlash</h1>
+                </a>
+                <div class="flex-none">
+                    <!-- Переключатель темы -->
+                    <button id="theme-toggle" class="p-2 rounded-full bg-deep-blue hover:bg-opacity-80 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-milky-white" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8 flex-grow">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer
+            class="bg-deep-blue py-4 text-milky-white text-center mt-auto border-t border-sage-green border-opacity-20">
+            <div class="container mx-auto px-4">
+                <p>🌍 GeoFlash - Изучайте географию с удовольствием</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Общие скрипты -->
+    <script>
+        // Loading screen logic
+        // Крутая и быстрая анимация
+        document.addEventListener('DOMContentLoaded', function () {
+            // Проверяем, это первый визит или просто обновление страницы
+            const isNewVisit = !sessionStorage.getItem('visited');
+
+            if (isNewVisit) {
+                // Это новый визит, показываем анимацию загрузки
+                const loadingScreen = document.getElementById('loading-screen');
+                const progress = document.getElementById('progress');
+                const earth = document.getElementById('earth');
+
+                // Быстрая имитация загрузки
+                let width = 0;
+                let stage = 1;
+
+                const interval = setInterval(function () {
+                    if (width >= 100) {
+                        clearInterval(interval);
+
+                        // Запускаем анимацию увеличения Земли
+                        earth.classList.add('zoom-out');
+
+                        // Добавляем эффект пульсации при завершении
+                        document.querySelector('.background-glow').style.animation = 'pulseBg 0.5s ease-in-out';
+
+                        // Скрываем экран загрузки после анимации
+                        setTimeout(function () {
+                            loadingScreen.classList.add('hidden');
+                            // Помечаем как посещённый
+                            sessionStorage.setItem('visited', 'true');
+                        }, 800);
+                    } else {
+                        // Имитация реалистичной загрузки с разными скоростями на разных стадиях
+                        if (width < 30 && stage === 1) {
+                            width += 2;
+                        } else if (width < 60 && stage === 1) {
+                            width += 3;
+                            if (width >= 60) stage = 2;
+                        } else if (width < 80 && stage === 2) {
+                            width += 1.5;
+                            if (width >= 80) stage = 3;
+                        } else if (width < 95 && stage === 3) {
+                            width += 0.8;
+                        } else {
+                            width += 0.5;
+                        }
+
+                        progress.style.width = width + '%';
+                    }
+                }, 30); // Обновляем часто для плавной анимации
+
+                // Делаем континенты интерактивными
+                const continents = document.querySelectorAll('.continent');
+                continents.forEach(continent => {
+                    continent.addEventListener('mouseover', () => {
+                        continent.style.filter = 'brightness(1.2)';
+                        continent.style.transform = continent.style.transform + ' scale(1.05)';
+                    });
+                    continent.addEventListener('mouseout', () => {
+                        continent.style.filter = 'brightness(1)';
+                        continent.style.transform = continent.style.transform.replace(' scale(1.05)', '');
+                    });
+                });
+            } else {
+                // Это обновление, сразу скрываем экран загрузки
+                const loadingScreen = document.getElementById('loading-screen');
+                loadingScreen.classList.add('hidden');
+            }
+        });
+
+
+        // Переключение темы
+        document.getElementById('theme-toggle').addEventListener('click', function () {
+            document.body.classList.toggle('light-theme');
+
+            // Обновление иконки
+            const iconPath = this.querySelector('path');
+            if (document.body.classList.contains('light-theme')) {
+                iconPath.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+            } else {
+                iconPath.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+            }
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
